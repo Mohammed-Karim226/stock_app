@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 const NavItems = () => {
   const isActive = usePathname();
   return (
-    <ul className="flex flex-col sm:flex-row p-2 gap-4 sm:gap-10 font-medium`">
+    <ul className="flex flex-col sm:flex-row p-2 gap-4 sm:gap-10 font-medium">
       {Nav_Items.map((item) => (
         <li key={item.name}>
           <Link

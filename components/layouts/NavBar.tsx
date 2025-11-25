@@ -16,9 +16,9 @@ const NavBar = () => {
             className="logo"
           />
         </Link>
-        <ul className="hidden sm:block">
+        <nav className="hidden sm:block">
           <NavItems />
-        </ul>
+        </nav>
         <UserDropDown />
       </div>
     </header>
