@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Authrization - Stock App",
+  title: "Authorization - Stock App",
   description: "A stock market tracking application built with Next.js",
 };
 
