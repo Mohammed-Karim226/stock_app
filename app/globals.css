@@ -180,7 +180,7 @@
   }
 
   .auth-right-section {
-    @apply w-full max-lg:border-t max-lg:border-gray-600 lg:w-[55%] lg:h-screen bg-gray-800 py-4 lg:py-12 flex flex-col justify-start;
+    @apply w-full max-lg:border-t max-lg:border-gray-600 lg:w-[55%] lg:h-screen bg-gray-800 py-4 lg:py-12 hidden lg:flex flex-col justify-start;
   }
 
   .auth-blockquote {
