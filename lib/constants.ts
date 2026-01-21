@@ -11,6 +11,13 @@ export const NAV_ITEMS = [
 ];
 
 // Sign-up form select options
+export const COUNTRIES = [
+  { value: "US", label: "United States" },
+  { value: "CA", label: "Canada" },
+  { value: "GB", label: "United Kingdom" },
+  { value: "AU", label: "Australia" },
+  { value: "NZ", label: "New Zealand" },
+];
 export const INVESTMENT_GOALS = [
   { value: "Growth", label: "Growth" },
   { value: "Income", label: "Income" },
