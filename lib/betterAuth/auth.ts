@@ -12,7 +12,7 @@ export const getAuth = async () => {
 
   if (!db) throw new Error("Database connection is not established");
   authInstance = betterAuth({
-    database: mongodbAdapter(db as any),
+    database: mongodbAdapter(db as import("mongodb").Db),
     secret: process.env.BETTER_AUTH_SECRET,
     baseUrl: process.env.BETTER_AUTH_URL,
     emailAndPassword: {

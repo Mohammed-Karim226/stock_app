@@ -24,7 +24,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { COUNTRIES, INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS } from "@/lib/constants";
+import {
+  COUNTRIES,
+  INVESTMENT_GOALS,
+  PREFERRED_INDUSTRIES,
+  RISK_TOLERANCE_OPTIONS,
+} from "@/lib/constants";
+import { toast } from "sonner";
+import { signUpWithEmail } from "@/lib/actions/auth.actions";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -39,13 +47,16 @@ const formSchema = z.object({
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters." }),
-  investmentGoals: z.string().min(1, { message: "Investment Goals is required." }),
+  investmentGoals: z
+    .string()
+    .min(1, { message: "Investment Goals is required." }),
   riskTolerance: z.string().min(1, { message: "Risk Tolerance is required." }),
-  preferredIndustries: z.string().min(1, { message: "Prefered Industrys is required." }),
+  preferredIndustries: z
+    .string()
+    .min(1, { message: "Prefered Industrys is required." }),
 });
 const SignUpForm = () => {
-  
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,9 +70,17 @@ const SignUpForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const result = await signUpWithEmail(values);
+      if (result.success) {
+        router.push("/");
+        toast.success("Sign up successful! Please check your email.");
+      }
+    } catch (error: unknown) {
+      const errorMessage = (error as { message: string }).message;
+      toast.error(errorMessage || "An error occurred during sign up.");
+    }
   }
   return (
     <div className="flex justify-center items-center w-full">
@@ -105,7 +124,10 @@ const SignUpForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Country</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select a country" />
@@ -146,7 +168,10 @@ const SignUpForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Investment Goals</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select an investment goal" />
@@ -173,7 +198,10 @@ const SignUpForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Risk Tolerance</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select a risk tolerance" />
@@ -198,7 +226,10 @@ const SignUpForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Preferred Industries</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Select a preferred industry" />
@@ -220,7 +251,7 @@ const SignUpForm = () => {
               )}
             />
 
-             <Button
+            <Button
               type="submit"
               className="w-full bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 text-white font-semibold py-3 rounded-lg shadow-lg hover:scale-[1.03] transition-transform duration-200 cursor-pointer flex items-center justify-center gap-2"
             >
