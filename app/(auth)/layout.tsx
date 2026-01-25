@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="auth-layout">
       <section className="auth-left-section scrollbar-hide-default">
-        <Link href={"/"} className="auth-logo group">
+        <Link href={"/dashboard"} className="auth-logo group">
           <Image
             src={"/icons/logo.png"}
             alt="logo"

@@ -12,8 +12,10 @@ import {
 } from "../ui/dropdown-menu";
 import { LogOut, User as UserIcon } from "lucide-react";
 import NavItems from "./NavItems";
+import { User } from "better-auth";
+import { signOut } from "@/lib/actions/auth.actions";
 
-export default function UserDropDown() {
+export default function UserDropDown({ user }: { user: User }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,17 +23,17 @@ export default function UserDropDown() {
           variant="ghost"
           className="flex items-center gap-2 rounded-full px-2 py-1
                      hover:bg-white/5 transition cursor-pointer 
-                     border border-white/10 shadow-[0_0_12px_rgba(0,0,0,0.4)]"
+                      shadow-[0_0_12px_rgba(0,0,0,0.4)]"
         >
           <Image
-            src="/icons/logo.png"
-            alt="User"
+            src={user.image || "/icons/logo.png"}
+            alt={user.name || "User"}
             width={30}
             height={30}
             className="rounded-full border border-white/10 shadow-[0_0_8px_rgba(80,80,255,0.4)]"
           />
           <span className="hidden sm:block font-medium text-sm text-gray-300">
-            User Name
+            {user.name}
           </span>
         </Button>
       </DropdownMenuTrigger>
@@ -53,9 +55,21 @@ export default function UserDropDown() {
           />
           <div className="flex flex-col">
             <span className="font-semibold text-sm text-gray-100">
-              User Name
+              {user.name}
             </span>
-            <span className="text-xs text-gray-400">user@email.com</span>
+            <span className="text-xs text-gray-400 truncate max-w-[150px]">
+              {user.email}
+            </span>
+
+            <span className="flex items-center gap-1 text-[10px] text-indigo-400 font-semibold uppercase">
+              <span className="w-1 h-1 rounded-full bg-indigo-400" />
+              Updated{" "}
+              {new Intl.DateTimeFormat("en-US", {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true,
+              }).format(new Date(user.updatedAt))}
+            </span>
           </div>
         </DropdownMenuLabel>
 
@@ -72,7 +86,7 @@ export default function UserDropDown() {
         <DropdownMenuItem
           className="cursor-pointer flex items-center gap-2 text-red-500
                      hover:bg-red-500/10 focus:bg-red-500/10 transition-colors"
-          onClick={() => console.log("LOGOUT FUNCTION HERE")}
+          onClick={() => signOut()}
         >
           <LogOut className="w-4 h-4" />
           Logout

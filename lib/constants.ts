@@ -1,13 +1,13 @@
 export const Nav_Items = [
-  { name: "Dashboard", href: "/" },
-  { name: "Search", href: "/search" },
-  { name: "Watchlist", href: "/watchlist" },
+  { name: "Dashboard", href: "/dashboard" },
+  { name: "Search", href: "/dashboard/search" },
+  { name: "Watchlist", href: "/dashboard/watchlist" },
 ];
 
 export const NAV_ITEMS = [
-  { href: "/", label: "Dashboard" },
-  { href: "/search", label: "Search" },
-  // { href: '/watchlist', label: 'Watchlist' },
+  { href: "/dashboard", label: "Dashboard" },
+  { href: "/dashboard/search", label: "Search" },
+  { href: "/dashboard/watchlist", label: "Watchlist" },
 ];
 
 // Sign-up form select options

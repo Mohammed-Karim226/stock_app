@@ -16,6 +16,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { signInWithEmail } from "@/lib/actions/auth.actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { LoaderCircle } from "lucide-react";
 
 const formSchema = z.object({
   email: z
@@ -28,6 +33,8 @@ const formSchema = z.object({
     .min(8, { message: "Password must be at least 8 characters." }),
 });
 const SignInForm = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,9 +43,20 @@ const SignInForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true);
+    try {
+      const result = await signInWithEmail(values);
+      if (result.success) {
+        toast.success("Sign in successful! Welcome back.");
+        router.replace("/dashboard");
+      }
+    } catch (error) {
+      const errorMessage = (error as { message: string }).message;
+      toast.error(errorMessage || "An error occurred during sign in.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -97,7 +115,11 @@ const SignInForm = () => {
                   d="M5 12h14M12 5l7 7-7 7"
                 />
               </svg>
-              Login
+              {isSubmitting ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                "Sign In"
+              )}
             </Button>
             <div className="flex justify-center">
               <p className="text-sm text-gray-500">
