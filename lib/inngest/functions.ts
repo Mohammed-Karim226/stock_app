@@ -1,3 +1,5 @@
+import { step } from "inngest";
+import { getAllUsersForEmails } from "../actions/user.actions";
 import { sendWelcomeEmail } from "../nodemailer";
 import { inngest } from "./client";
 import { PERSONALIZED_WELCOME_EMAIL_PROMPT } from "./prompts";
@@ -47,4 +49,21 @@ export const sendSignUpEmail = inngest.createFunction(
       message: "Welcome email sent successfully",
     };
   }
+);
+
+export const sendDailyEmailSummary = inngest.createFunction(
+  { id: "daily-email-summary" },
+  [{ event: "app/send.daily.news" }, { cron: "0 12 * * *" }],
+  async ({ step }) => {
+    // get all users from the database
+    const users = await step.run("get-all-users", getAllUsersForEmails);
+    if (!users.success) {
+      return {
+        success: false,
+        message: "No users found to send daily summary",
+      };
+    }
+    console.log(users);
+  }
+  // fetch personalized news for each user
 );
