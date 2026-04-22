@@ -1,22 +1,29 @@
-import nodemailer, { SentMessageInfo } from "nodemailer";
+import nodemailer from "nodemailer";
 import { WELCOME_EMAIL_TEMPLATE } from "./tempaltes";
+
+interface WelcomeEmailParams {
+  email: string;
+  name: string;
+  intro: string;
+}
+
 export const transporter = nodemailer.createTransport({
- host: 'smtp.ethereal.email',
-    port: 587,
-    auth: {
-        user: 'bernhard.skiles28@ethereal.email',
-        pass: 'N2QsHRJBFKgvHkXg1H'
-    }
+  host: "smtp.ethereal.email",
+  port: 587,
+  auth: {
+    user: "bernhard.skiles28@ethereal.email",
+    pass: "N2QsHRJBFKgvHkXg1H",
+  },
 });
 
 export const sendWelcomeEmail = async ({
   email,
   name,
   intro,
-}: SentMessageInfo) => {
+}: WelcomeEmailParams) => {
   const htmlTemplate = WELCOME_EMAIL_TEMPLATE.replace("{{name}}", name).replace(
     "{{intro}}",
-    intro
+    intro,
   );
 
   const mailOptions = {

@@ -1,7 +1,6 @@
 "use server";
 
 import { connectToDatabase } from "@/database/mongoose";
-import { M_PLUS_1 } from "next/font/google";
 
 export const getAllUsersForEmails = async () => {
   try {
@@ -13,7 +12,10 @@ export const getAllUsersForEmails = async () => {
     const users = await db
       .collection("user")
       .find(
-        { $exists: true, $ne: null },
+        {
+          email: { $exists: true, $ne: null },
+          name: { $exists: true, $ne: null },
+        },
         { projection: { _id: 1, id: 1, email: 1, name: 1, country: 1 } }
       )
       .toArray();
